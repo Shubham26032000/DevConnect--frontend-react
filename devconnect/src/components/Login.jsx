@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
-import { login } from "../services/UserApi";
+import { authLogin, login } from "../services/UserApi";
 function Login() {
   const { user, setUser } = useContext(UserContext);
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const loginUser = (e) => {
@@ -14,7 +14,12 @@ function Login() {
       .then((response) => {
         setUser(response.data);
         localStorage.setItem("user", JSON.stringify(response.data));
-        navigate("/");
+        authLogin({ email, password })
+          .then((response) => {
+            localStorage.setItem("token", response.data.token);
+            navigate("/");
+          })
+          .catch((error) => alert("Error in generating token"));
       })
       .catch((error) => alert("Invalid password or username"));
     setEmail("");

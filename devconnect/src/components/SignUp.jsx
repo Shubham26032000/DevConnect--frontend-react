@@ -1,25 +1,32 @@
 import { use, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
-import { createUser } from "../services/UserApi";
+import { createUser, authLogin } from "../services/UserApi";
 
 function SignUp() {
-  const [username, setUsername] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const signUp = (e) => {
-    e.preventDefaults();
+    e.preventDefault();
     createUser({ username, email, password })
       .then((response) => {
+        console.log("Coming here ", response);
         setUser(response.data);
         localStorage.setItem("user", JSON.stringify(response.data));
-        navigate("/");
+        authLogin({ email, password })
+          .then((response) => {
+            localStorage.setItem("token", response.data.token);
+            navigate("/");
+          })
+          .catch((error) => alert("Error in generating token"));
       })
       .catch((err) => {
+        console.log("Coming here ", err);
         alert("something went wrong...!", err.getMessage());
       });
 

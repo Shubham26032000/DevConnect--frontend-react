@@ -1,12 +1,11 @@
 import axios from "axios";
+import api from "./api";
 
-const api = axios.create({
-  baseURL: "http://localhost:9999/posts",
-});
-
-const createPost = (userId, post) => api.post(`/create?userId=${userId}`, post);
-const getPost = (postId) => api.get(`/${postId}?userId=${userId}`);
-const usersPost = (userId) => api.get(`/user-post?userId=${userId}`);
-const allPosts = () => api.get("/all");
+const createPost = (userId, post) =>
+  api.post(`/posts/create?userId=${userId}`, post);
+const getPost = (postId, userId) =>
+  api.get(`/posts/${postId}?userId=${userId}`);
+const usersPost = (userId) => api.get(`/posts/user-post?userId=${userId}`);
+const allPosts = () => api.get("/posts/all");
 
 export { createPost, getPost, usersPost, allPosts };

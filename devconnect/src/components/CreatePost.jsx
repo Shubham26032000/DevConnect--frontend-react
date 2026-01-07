@@ -13,7 +13,7 @@ function CreatePost() {
 
   const submitCreate = (e) => {
     e.preventDefault();
-    createPost(user.id, { title, content })
+    createPost(user.userId, { title, content })
       .then((response) => {
         navigate("/");
       })
@@ -61,7 +61,7 @@ function CreatePost() {
               </div>
 
               <input
-                class="btn btn-primary"
+                className="btn btn-primary"
                 type="submit"
                 value="Submit"
               ></input>

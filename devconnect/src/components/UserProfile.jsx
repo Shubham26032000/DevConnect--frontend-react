@@ -37,8 +37,8 @@ function UserProfile() {
         <hr />
         <div className="row">
           {posts.map((post) => (
-            <div className="col-4">
-              <Post post={post} user={currentUser} key={post.id} />
+            <div className="col-4" key={post.id}>
+              <Post post={post} user={currentUser} />
             </div>
           ))}
         </div>

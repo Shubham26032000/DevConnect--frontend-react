@@ -1,9 +1,6 @@
 import axios from "axios";
+import api from "./api";
 
-const api = axios.create({
-  baseURL: "http://localhost:9999/ui",
-});
-
-const feeds = () => api.get("/feeds");
+const feeds = () => api.get("/ui/feeds");
 
 export { feeds };

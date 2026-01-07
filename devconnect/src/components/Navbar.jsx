@@ -11,6 +11,7 @@ function Navbar() {
   const logout = () => {
     localStorage.removeItem("user");
     setUser(null);
+    localStorage.removeItem("token");
     navigate("/login");
   };
 
@@ -46,7 +47,7 @@ function Navbar() {
               <Link
                 className="nav-link active"
                 aria-current="page"
-                to={`user/${user.id}`}
+                to={`user/${user.userId}`}
               >
                 User
               </Link>
