@@ -59,6 +59,18 @@ function CreatePost() {
                   onChange={(e) => setContent(e.target.value)}
                 ></textarea>
               </div>
+              <div className="mb-3">
+                <label htmlFor="imageInput" className="form-label">
+                  Post image
+                </label>
+                <input
+                  className="form-control"
+                  type="file"
+                  id="imageInput"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
+              </div>
 
               <input
                 className="btn btn-primary"

@@ -2,13 +2,14 @@ import { useParams } from "react-router-dom";
 import Post from "../components/Post";
 import { useContext, useEffect, useState } from "react";
 import { usersPost } from "../services/PostApi";
-import { getUser } from "../services/UserApi";
+import { getUser, getProfilePic } from "../services/UserApi";
 import UserContext from "../context/UserContext";
 
 function UserProfile() {
   const { userId } = useParams();
   const [posts, setPosts] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [profilePic, setProfilePic] = useState("");
 
   useEffect(() => {
     console.log("ID RECEIVED", userId);
@@ -19,6 +20,14 @@ function UserProfile() {
         console.log("CURRENT USER :: ", currentUser);
       })
       .catch((error) => console.error("User not found", error));
+
+    getProfilePic(userId)
+      .then((response) => {
+        console.log(response);
+        setProfilePic(URL.createObjectURL(response.data));
+      })
+      .catch((err) => console.error(err));
+
     usersPost(userId)
       .then((response) => {
         setPosts(response.data);
@@ -30,8 +39,14 @@ function UserProfile() {
     <>
       <div className="container">
         <div className="card">
-          <div className="card-body">
-            <div className="card-title">{currentUser?.username}</div>
+          <div className="card-body d-flex">
+            <img
+              className=" rounded-circle"
+              src={profilePic}
+              alt="user profile"
+              width={"10%"}
+            />
+            <h4 className="card-title p-4">{currentUser?.username}</h4>
           </div>
         </div>
         <hr />

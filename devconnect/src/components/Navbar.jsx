@@ -1,12 +1,20 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
+import { getProfilePic } from "../services/UserApi";
 
 function Navbar() {
   const { user, setUser } = useContext(UserContext);
+  const [profileImage, setProfileImage] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     console.log("NAV", user);
+    getProfilePic(user.userId)
+      .then((response) => {
+        setProfileImage(URL.createObjectURL(response.data));
+        console.log("Profile image", profileImage);
+      })
+      .catch((error) => console.log(error));
   }, []);
   const logout = () => {
     localStorage.removeItem("user");
@@ -58,6 +66,13 @@ function Navbar() {
           <span className=" navbar-nav me-4 text-cent nav-link">
             {user.username}
           </span>
+          <img
+            className="img-fluid rounded-circle"
+            src={profileImage}
+            alt="User"
+            width={"50px"}
+            height={"50px"}
+          />
           <span className="me-4 nav-link nav-item" onClick={logout}>
             Logout
           </span>
